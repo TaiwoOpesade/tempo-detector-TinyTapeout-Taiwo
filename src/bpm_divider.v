@@ -29,9 +29,10 @@ module bpm_divider #(
 );
 
     localparam [NUM_WIDTH-1:0] NUM_CONST = NUMERATOR[NUM_WIDTH-1:0];
-    localparam integer REM_WIDTH = DEN_WIDTH + 2;
+    localparam integer REM_WIDTH = DEN_WIDTH + 1;
+    localparam integer BIT_INDEX_WIDTH = $clog2(NUM_WIDTH);
 
-    reg [$clog2(NUM_WIDTH):0] bit_idx;
+    reg [BIT_INDEX_WIDTH-1:0] bit_idx;
     reg [REM_WIDTH-1:0]       rem;
     reg [NUM_WIDTH-1:0]       quo;
     reg [DEN_WIDTH-1:0]       denom_reg;
@@ -40,7 +41,7 @@ module bpm_divider #(
     assign busy = running;
 
     wire [REM_WIDTH-1:0] shifted_rem = {rem[REM_WIDTH-2:0], NUM_CONST[bit_idx]};
-    wire [REM_WIDTH-1:0] denom_ext   = {2'b00, denom_reg};
+    wire [REM_WIDTH-1:0] denom_ext   = {1'b0, denom_reg};
     wire                 can_subtract = shifted_rem >= denom_ext;
 
     always @(posedge clk or negedge rst_n) begin
@@ -48,7 +49,7 @@ module bpm_divider #(
             running   <= 1'b0;
             done      <= 1'b0;
             quotient  <= 8'd0;
-            bit_idx   <= {($clog2(NUM_WIDTH)+1){1'b0}};
+            bit_idx   <= {BIT_INDEX_WIDTH{1'b0}};
             rem       <= {REM_WIDTH{1'b0}};
             quo       <= {NUM_WIDTH{1'b0}};
             denom_reg <= {DEN_WIDTH{1'b0}};
@@ -69,7 +70,7 @@ module bpm_divider #(
                         rem       <= {REM_WIDTH{1'b0}};
                         quo       <= {NUM_WIDTH{1'b0}};
                         denom_reg <= denominator;
-                        bit_idx   <= NUM_WIDTH[$clog2(NUM_WIDTH):0] - 1'b1;
+                        bit_idx   <= NUM_WIDTH - 1;
                         running   <= 1'b1;
                     end
                 end

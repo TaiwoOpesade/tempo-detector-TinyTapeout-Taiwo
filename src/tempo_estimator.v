@@ -35,13 +35,13 @@ module tempo_estimator #(
     output reg  [1:0]         confidence
 );
 
-    reg [WIDTH-1:0] hist0, hist1, hist2, hist3; // hist0 = most recent
+    reg [WIDTH-1:0] hist0, hist1, hist2; // hist0 = most recent
     reg [2:0]       fill_count;
 
     wire is_stale = (last_interval >= STALE_THRESHOLD[WIDTH-1:0]);
 
     // Candidate 4-value window if this interval is accepted: the new
-    // sample plus the 3 most recent history entries (hist3 drops off).
+    // sample plus the 3 most recent history entries (the oldest entry drops off).
     wire [WIDTH-1:0] c0 = last_interval;
     wire [WIDTH-1:0] c1 = hist0;
     wire [WIDTH-1:0] c2 = hist1;
@@ -58,8 +58,9 @@ module tempo_estimator #(
     // Four WIDTH-bit values need WIDTH+2 bits before the divide-by-four.
     // Keeping the extra carry bits avoids corrupting averages for slower
     // tempos (for example, four intervals of 400 samples sum to 1600).
-    wire [WIDTH+1:0] csum = c0 + c1 + c2 + c3;
-    wire [WIDTH-1:0] cavg = csum >> 2;
+    wire [WIDTH+1:0] csum = {2'b00, c0} + {2'b00, c1} +
+                             {2'b00, c2} + {2'b00, c3};
+    wire [WIDTH-1:0] cavg = csum[WIDTH+1:2];
 
     wire window_full = (fill_count >= 3'd3); // this interval makes it 4
 
@@ -68,7 +69,6 @@ module tempo_estimator #(
             hist0        <= {WIDTH{1'b0}};
             hist1        <= {WIDTH{1'b0}};
             hist2        <= {WIDTH{1'b0}};
-            hist3        <= {WIDTH{1'b0}};
             fill_count   <= 3'd0;
             avg_interval <= {WIDTH{1'b0}};
             avg_valid    <= 1'b0;
@@ -78,7 +78,6 @@ module tempo_estimator #(
             hist0        <= {WIDTH{1'b0}};
             hist1        <= {WIDTH{1'b0}};
             hist2        <= {WIDTH{1'b0}};
-            hist3        <= {WIDTH{1'b0}};
             fill_count   <= 3'd0;
             avg_valid    <= 1'b0;
             tempo_locked <= 1'b0;
@@ -91,12 +90,10 @@ module tempo_estimator #(
                     hist0        <= {WIDTH{1'b0}};
                     hist1        <= {WIDTH{1'b0}};
                     hist2        <= {WIDTH{1'b0}};
-                    hist3        <= {WIDTH{1'b0}};
                     fill_count   <= 3'd0;
                     tempo_locked <= 1'b0;
                     confidence   <= 2'b00;
                 end else begin
-                    hist3 <= hist2;
                     hist2 <= hist1;
                     hist1 <= hist0;
                     hist0 <= last_interval;
