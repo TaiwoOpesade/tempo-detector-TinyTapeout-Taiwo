@@ -24,7 +24,7 @@ UIO_OVERFLOW = 0b0010_0000
 
 
 async def start_clock(dut):
-    cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 10, "ns").start())
 
 
 async def reset_dut(dut):
