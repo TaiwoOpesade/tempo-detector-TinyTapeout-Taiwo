@@ -1,0 +1,17 @@
+# HDL simulator/build output
+*.vvp
+test/sim_build/
+test/sim_build_native/
+*.log
+test/results.xml
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db
