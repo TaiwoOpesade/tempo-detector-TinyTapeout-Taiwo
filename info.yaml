@@ -16,7 +16,7 @@ project:
     - "tempo_estimator.v"
     - "bpm_divider.v"
     - "result_latch.v"
-  top_module:  "tt_um_taiwoopesade_tempo_detector"
+  top_module:  "tt_um_taiwoopesade_tempo_detector_sky26c"
 
   tiles: "1x1"
 

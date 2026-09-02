@@ -8,7 +8,7 @@ VERILOG_SOURCES += $(PWD)/../src/bpm_divider.v
 VERILOG_SOURCES += $(PWD)/../src/result_latch.v
 VERILOG_SOURCES += $(PWD)/../src/project.v
 
-TOPLEVEL = tt_um_taiwoopesade_tempo_detector
+TOPLEVEL = tt_um_taiwoopesade_tempo_detector_sky26c
 MODULE = test,test_edge_cases
 
 include $(shell cocotb-config --makefiles)/Makefile.sim

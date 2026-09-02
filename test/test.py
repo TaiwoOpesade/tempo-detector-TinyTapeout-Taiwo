@@ -1,5 +1,5 @@
 """
-Functional tests for tt_um_taiwoopesade_tempo_detector.
+Functional tests for tt_um_taiwoopesade_tempo_detector_sky26c.
 
 Drives synthetic audio streams (periodic loud pulses on a quiet floor)
 into the chip and checks that it reports beat pulses, converges on the

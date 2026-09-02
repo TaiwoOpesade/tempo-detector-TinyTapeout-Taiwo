@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-// tt_um_taiwoopesade_tempo_detector
+// tt_um_taiwoopesade_tempo_detector_sky26c
 // =========================================================================
 // Hardware Audio Tempo (BPM) Detector — TinyTapeout submission
 //
@@ -25,7 +25,7 @@
 // uio_out[5]   overflow_flag  - no beat seen for a long time (silence)
 // uio_out[7:6] confidence     - 2-bit stability score, 3 = tightest lock
 // =========================================================================
-module tt_um_taiwoopesade_tempo_detector (
+module tt_um_taiwoopesade_tempo_detector_sky26c (
     input  wire [7:0] ui_in,
     output wire [7:0] uo_out,
     input  wire [7:0] uio_in,

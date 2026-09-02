@@ -1,5 +1,5 @@
 """
-Edge-case validation for tt_um_taiwoopesade_tempo_detector: disabled
+Edge-case validation for tt_um_taiwoopesade_tempo_detector_sky26c: disabled
 chip behaviour, jittery/unstable tempo, tempo changes mid-stream, and
 the divide-by-zero guard in the BPM divider.
 """
